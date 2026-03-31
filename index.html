@@ -578,6 +578,7 @@
         const payload = {
           name: currentUser.name,
           amount: cost,
+          balance: newBalance,
           type: '사용',
           category: logCategory,
           avatarData: avatarDataStr
@@ -585,10 +586,10 @@
         try {
           await fetch(SCRIPT_URL, {
             method: 'POST', mode: 'no-cors',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
             body: JSON.stringify(payload)
           });
-          fetchUsers();
+          setTimeout(fetchUsers, 1500);
         } catch(e) {}
       };
 
@@ -636,6 +637,7 @@
         const payload = {
           name: currentUser.name,
           amount: amountNum,
+          balance: newBalance,
           type: transactionType === 'save' ? '저축' : '사용',
           category: txCategory || '기타',
         };
@@ -645,11 +647,11 @@
           await fetch(SCRIPT_URL, {
             method: 'POST',
             mode: 'no-cors',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
             body: JSON.stringify(payload)
           });
           // Background refresh
-          fetchUsers();
+          setTimeout(fetchUsers, 1500);
         } catch (error) {
           console.error('Transaction error', error);
         }
