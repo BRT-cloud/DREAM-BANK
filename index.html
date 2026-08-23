@@ -475,6 +475,86 @@
       );
     };
 
+    // --- 개인별 시간표 상수 및 기본 템플릿 정의 ---
+    const DAYS = ['월', '화', '수', '목', '금'];
+    const PERIODS = [1, 2, 3, 4, 5, 6, 7];
+    const PERIOD_TIMES = [
+      { period: 1, start: '09:00', end: '09:40', label: '1교시 (09:00~09:40)' },
+      { period: 2, start: '09:50', end: '10:30', label: '2교시 (09:50~10:30)' },
+      { period: 3, start: '10:40', end: '11:20', label: '3교시 (10:40~11:20)' },
+      { period: 4, start: '11:30', end: '12:10', label: '4교시 (11:30~12:10)' },
+      { period: 5, start: '13:00', end: '13:40', label: '5교시 (13:00~13:40)' },
+      { period: 6, start: '13:50', end: '14:30', label: '6교시 (13:50~14:30)' },
+      { period: 7, start: '14:40', end: '15:20', label: '7교시 (14:40~15:20)' }
+    ];
+
+    const SUBJECT_COLORS = {
+      '국어': { bg: 'bg-orange-100', border: 'border-orange-300', text: 'text-orange-900', badge: 'bg-orange-200 text-orange-800' },
+      '수학': { bg: 'bg-blue-100', border: 'border-blue-300', text: 'text-blue-900', badge: 'bg-blue-200 text-blue-800' },
+      '사회': { bg: 'bg-amber-100', border: 'border-amber-300', text: 'text-amber-900', badge: 'bg-amber-200 text-amber-800' },
+      '과학': { bg: 'bg-emerald-100', border: 'border-emerald-300', text: 'text-emerald-900', badge: 'bg-emerald-200 text-emerald-800' },
+      '영어': { bg: 'bg-purple-100', border: 'border-purple-300', text: 'text-purple-900', badge: 'bg-purple-200 text-purple-800' },
+      '체육': { bg: 'bg-rose-100', border: 'border-rose-300', text: 'text-rose-900', badge: 'bg-rose-200 text-rose-800' },
+      '음악': { bg: 'bg-indigo-100', border: 'border-indigo-300', text: 'text-indigo-900', badge: 'bg-indigo-200 text-indigo-800' },
+      '미술': { bg: 'bg-pink-100', border: 'border-pink-300', text: 'text-pink-900', badge: 'bg-pink-200 text-pink-800' },
+      '창체': { bg: 'bg-teal-100', border: 'border-teal-300', text: 'text-teal-900', badge: 'bg-teal-200 text-teal-800' },
+      '도덕': { bg: 'bg-slate-100', border: 'border-slate-300', text: 'text-slate-900', badge: 'bg-slate-200 text-slate-800' },
+      '실과': { bg: 'bg-cyan-100', border: 'border-cyan-300', text: 'text-cyan-900', badge: 'bg-cyan-200 text-cyan-800' },
+      '특수학급': { bg: 'bg-emerald-50', border: 'border-2 border-emerald-400', text: 'text-emerald-900', badge: 'bg-emerald-600 text-white font-extrabold shadow-sm' },
+      'default': { bg: 'bg-gray-50', border: 'border-gray-200', text: 'text-gray-800', badge: 'bg-gray-200 text-gray-700' }
+    };
+
+    // 학급 공통 기본 시간표 템플릿
+    const DEFAULT_CLASS_TIMETABLE = {
+      '월-1': { subject: '국어', room: '4-1교실', teacher: '김선생님', memo: '배움공책 준비', isSpecial: false },
+      '월-2': { subject: '수학', room: '4-1교실', teacher: '김선생님', memo: '수학익힘책 피드백', isSpecial: false },
+      '월-3': { subject: '사회', room: '4-1교실', teacher: '김선생님', memo: '모둠 조사 발표', isSpecial: false },
+      '월-4': { subject: '과학', room: '과학실', teacher: '박과학선생님', memo: '실험복 착용', isSpecial: false },
+      '월-5': { subject: '체육', room: '강당', teacher: '이체육선생님', memo: '운동화 준비', isSpecial: false },
+      '월-6': { subject: '음악', room: '음악실', teacher: '최음악선생님', memo: '리코더 가져오기', isSpecial: false },
+      '월-7': { subject: '자율', room: '4-1교실', teacher: '김선생님', memo: '독서 시간', isSpecial: false },
+
+      '화-1': { subject: '수학', room: '4-1교실', teacher: '김선생님', memo: '연습문제 풀이', isSpecial: false },
+      '화-2': { subject: '국어', room: '4-1교실', teacher: '김선생님', memo: '글짓기', isSpecial: false },
+      '화-3': { subject: '영어', room: '영어실', teacher: '원어민선생님', memo: '단어카드', isSpecial: false },
+      '화-4': { subject: '미술', room: '미술실', teacher: '김선생님', memo: '수채화 물감', isSpecial: false },
+      '화-5': { subject: '미술', room: '미술실', teacher: '김선생님', memo: '작품 완성', isSpecial: false },
+      '화-6': { subject: '사회', room: '4-1교실', teacher: '김선생님', memo: '', isSpecial: false },
+      '화-7': { subject: '동아리', room: '4-1교실', teacher: '김선생님', memo: '', isSpecial: false },
+
+      '수-1': { subject: '국어', room: '4-1교실', teacher: '김선생님', memo: '', isSpecial: false },
+      '수-2': { subject: '과학', room: '과학실', teacher: '박과학선생님', memo: '', isSpecial: false },
+      '수-3': { subject: '수학', room: '4-1교실', teacher: '김선생님', memo: '', isSpecial: false },
+      '수-4': { subject: '창체', room: '4-1교실', teacher: '김선생님', memo: '학급회의', isSpecial: false },
+      '수-5': { subject: '도덕', room: '4-1교실', teacher: '김선생님', memo: '', isSpecial: false },
+      '수-6': { subject: '', room: '', teacher: '', memo: '', isSpecial: false },
+      '수-7': { subject: '', room: '', teacher: '', memo: '', isSpecial: false },
+
+      '목-1': { subject: '영어', room: '영어실', teacher: '원어민선생님', memo: '', isSpecial: false },
+      '목-2': { subject: '국어', room: '4-1교실', teacher: '김선생님', memo: '', isSpecial: false },
+      '목-3': { subject: '수학', room: '4-1교실', teacher: '김선생님', memo: '', isSpecial: false },
+      '목-4': { subject: '사회', room: '4-1교실', teacher: '김선생님', memo: '', isSpecial: false },
+      '목-5': { subject: '체육', room: '운동장', teacher: '이체육선생님', memo: '', isSpecial: false },
+      '목-6': { subject: '실과', room: '실과실', teacher: '김선생님', memo: '', isSpecial: false },
+      '목-7': { subject: '자율', room: '4-1교실', teacher: '김선생님', memo: '', isSpecial: false },
+
+      '금-1': { subject: '국어', room: '4-1교실', teacher: '김선생님', memo: '', isSpecial: false },
+      '금-2': { subject: '수학', room: '4-1교실', teacher: '김선생님', memo: '', isSpecial: false },
+      '금-3': { subject: '음악', room: '음악실', teacher: '최음악선생님', memo: '', isSpecial: false },
+      '금-4': { subject: '체육', room: '강당', teacher: '이체육선생님', memo: '', isSpecial: false },
+      '금-5': { subject: '창체', room: '4-1교실', teacher: '김선생님', memo: '주간 정리', isSpecial: false },
+      '금-6': { subject: '자율', room: '4-1교실', teacher: '김선생님', memo: '', isSpecial: false },
+      '금-7': { subject: '', room: '', teacher: '', memo: '', isSpecial: false }
+    };
+
+    // 특수학급/개별화 수업 샘플 (튤립 학생용 예시)
+    const TULIP_SAMPLE_TIMETABLE = {
+      ...DEFAULT_CLASS_TIMETABLE,
+      '월-2': { subject: '국어(개별화)', room: '꿈키움반(1층)', teacher: '특수교사 강선생님', memo: '1층 특수학급 이동 수업 🏃‍♂️', isSpecial: true },
+      '수-3': { subject: '수학(개별화)', room: '꿈키움반(1층)', teacher: '특수교사 강선생님', memo: '1층 특수학급 이동 수업 🏃‍♂️', isSpecial: true },
+      '목-4': { subject: '사회(이동)', room: '꿈키움반(1층)', teacher: '특수교사 강선생님', memo: '맞춤형 개별화 수업', isSpecial: true }
+    };
+
     function App() {
       // States
       const [view, setView] = React.useState('login'); // login, dashboard, transaction, admin, avatar-studio
@@ -491,19 +571,36 @@
       const [txCategory, setTxCategory] = React.useState('');
       const [alertMsg, setAlertMsg] = React.useState('');
 
-      // 아바타 스튜디오 전용 상태 (React Hook Rule 위반 방지)
+      // 아바타 스튜디오 전용 상태
       const [avatarTemp, setAvatarTemp] = React.useState({});
       const [avatarTab, setAvatarTab] = React.useState('skin');
+
+      // --- 개인별 시간표 신규 상태 ---
+      const [mainTab, setMainTab] = React.useState('points'); // 'points' (상벌점/자산) vs 'timetable' (개인별 시간표)
+      const [adminTab, setAdminTab] = React.useState('points'); // 'points' (자산 현황) vs 'timetable' (시간표 관리)
+      const [selectedStudentForTimetable, setSelectedStudentForTimetable] = React.useState('');
+      const [udlFontSize, setUdlFontSize] = React.useState('normal'); // 'normal', 'large', 'xlarge'
+      const [timetableSubView, setTimetableSubView] = React.useState('today'); // 'today', 'weekly'
+      const [allTimetables, setAllTimetables] = React.useState({});
+      
+      // 셀 편집 모달 상태 (관리자용)
+      const [editingCellKey, setEditingCellKey] = React.useState(null); // '월-1'
+      const [cellForm, setCellForm] = React.useState({ subject: '', room: '', teacher: '', memo: '', isSpecial: false });
 
       // Fetch users from GAS on mount
       React.useEffect(() => {
         fetchUsers();
-        
-        // 전역 효과음(버튼 클릭 시 숲속의 물방울, 혹은 '뽀용' 소리)
+        loadAllTimetables();
+
+        // UDL 폰트 설정 불러오기
+        try {
+          const fontPref = localStorage.getItem('udl_font_size');
+          if (fontPref) setUdlFontSize(fontPref);
+        } catch(e) {}
+
         const handleDocClick = (e) => {
           if (e.target.closest('button') || e.target.closest('.btn-bouncy')) {
              try {
-                // 부드러운 팝 사운드 (Free License)
                 const a = new Audio('https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3');
                 a.volume = 0.3;
                 a.play().catch(() => {});
@@ -514,18 +611,77 @@
         return () => document.removeEventListener('click', handleDocClick);
       }, []);
 
+      const loadAllTimetables = () => {
+        try {
+          const stored = localStorage.getItem('dream_bank_timetables');
+          if (stored) {
+            setAllTimetables(JSON.parse(stored));
+          } else {
+            // Initial default timetables setup
+            const initial = {
+              '튤립': TULIP_SAMPLE_TIMETABLE,
+              '치아치아토': TULIP_SAMPLE_TIMETABLE
+            };
+            localStorage.setItem('dream_bank_timetables', JSON.stringify(initial));
+            setAllTimetables(initial);
+          }
+        } catch (e) {
+          console.error("Failed loading timetables", e);
+        }
+      };
+
+      const saveTimetableForStudent = async (studentName, newTimetable) => {
+        const updated = {
+          ...allTimetables,
+          [studentName]: newTimetable
+        };
+        setAllTimetables(updated);
+        try {
+          localStorage.setItem('dream_bank_timetables', JSON.stringify(updated));
+        } catch(e) {}
+
+        // 구글 스프레드시트 (GAS) 실시간 동기화 POST
+        const timetableStr = JSON.stringify(newTimetable);
+        const payload = {
+          action: 'saveTimetable',
+          name: studentName,
+          type: '시간표변경',
+          category: '시간표 관리',
+          timetableData: timetableStr
+        };
+
+        try {
+          await fetch(SCRIPT_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify(payload)
+          });
+        } catch (err) {
+          console.error("GAS 시간표 연동 실패", err);
+        }
+      };
+
+      const getStudentTimetable = (studentName) => {
+        if (!studentName) return TULIP_SAMPLE_TIMETABLE;
+        return allTimetables[studentName] || TULIP_SAMPLE_TIMETABLE;
+      };
+
+      const handleUdlFontChange = (size) => {
+        setUdlFontSize(size);
+        try { localStorage.setItem('udl_font_size', size); } catch(e) {}
+      };
+
       const fetchUsers = async () => {
         setLoading(true);
         try {
           const res = await fetch(SCRIPT_URL + "?action=read");
           const data = await res.json();
           if (Array.isArray(data)) {
-            // Parse Avatar JSON from GAS or Fallback to LocalStorage
             const parsedData = data.map(u => {
               let av = { bg: 'none', skin: '#fce2c4', hairColor: '#7a5c43', clothesBase: '#f4a261', hairBack: 'none', eyes: 'normal', nose: 'tiny', mouth: 'smile', blush: 'none', bottoms: 'pants', tops: 'tshirt', hairFront: 'bangs', hat: 'none', handItem: 'none' };
               let unl = ['bg_none', 'bg_room', 'hairBack_none', 'hairBack_long', 'eyes_normal', 'eyes_happy', 'nose_tiny', 'nose_round', 'mouth_smile', 'blush_none', 'bottoms_pants', 'tops_tshirt', 'hairFront_bangs', 'hairFront_center', 'hat_none', 'handItem_none'];
               
-              // 1. LocalStorage Fallback Check
               try {
                 const local = localStorage.getItem(`avatar_${u.name}`);
                 if(local) {
@@ -535,7 +691,6 @@
                 }
               } catch(e) {}
               
-              // 2. GAS Sheet Check (If teacher modified the backend to return avatarData)
               if(u.avatarData) {
                 try {
                   const p = JSON.parse(u.avatarData);
@@ -544,10 +699,24 @@
                 } catch(e) {}
               }
 
+              // 구글 시트에서 가져온 학생별 시간표 데이터 연동
+              if (u.timetableData) {
+                try {
+                  const parsedTt = typeof u.timetableData === 'string' ? JSON.parse(u.timetableData) : u.timetableData;
+                  setAllTimetables(prev => ({
+                    ...prev,
+                    [u.name]: parsedTt
+                  }));
+                } catch(e) {}
+              }
+
               return { ...u, avatar: av, unlocked: unl };
             });
 
             setUsers(parsedData);
+            if (parsedData.length > 0 && !selectedStudentForTimetable) {
+              setSelectedStudentForTimetable(parsedData[0].name);
+            }
             
             if (currentUser) {
               const updated = parsedData.find(u => u.name === currentUser.name);
@@ -556,12 +725,15 @@
           }
         } catch (err) {
           console.error("Failed to fetch", err);
-          if(users.length === 0) setUsers([{ name: '튤립', balance: 5000, avatar:{hair:'short'}, unlocked:[] }]);
+          if(users.length === 0) {
+            const fallbackUsers = [{ name: '튤립', balance: 5000, avatar:{hair:'short'}, unlocked:[] }];
+            setUsers(fallbackUsers);
+            if(!selectedStudentForTimetable) setSelectedStudentForTimetable('튤립');
+          }
         }
         setLoading(false);
       };
 
-      // Avatar Sync (Saves to LocalStorage & sends to GAS sheet if possible)
       const handleAvatarUpdate = async (newConfig, newUnlocked, cost, logCategory) => {
         const newBalance = currentUser.balance - cost;
         const updatedUser = {
@@ -571,14 +743,11 @@
            unlocked: newUnlocked
         };
         setCurrentUser(updatedUser);
-        setView('dashboard'); // return to dashboard
+        setView('dashboard');
         
         const avatarDataStr = JSON.stringify({ config: newConfig, unlocked: newUnlocked });
-        
-        // Save LocalStorage
         try { localStorage.setItem(`avatar_${currentUser.name}`, avatarDataStr); } catch(e) {}
         
-        // Save to GAS
         const payload = {
           name: currentUser.name,
           amount: cost,
@@ -600,19 +769,28 @@
       const handleLogin = (e) => {
         e.preventDefault();
         
-        if (nickname === '관리자' && pin === '1234') {
+        const trimmed = nickname.trim();
+        if (!trimmed) return;
+
+        if (trimmed === '관리자' && pin === '1234') {
           setView('admin');
           return;
         }
 
-        const found = users.find(u => u.name === nickname);
-        if (found) {
-          setCurrentUser(found);
-          setView('dashboard');
-        } else {
-          setAlertMsg('닉네임을 찾을 수 없어요 😢');
-          setTimeout(() => setAlertMsg(''), 3000);
+        let found = users.find(u => u.name === trimmed);
+        if (!found) {
+          found = {
+            name: trimmed,
+            balance: 5000,
+            avatar: { bg: 'none', skin: '#fce2c4', hairColor: '#7a5c43', clothesBase: '#f4a261', hairBack: 'none', eyes: 'normal', nose: 'tiny', mouth: 'smile', blush: 'none', bottoms: 'pants', tops: 'tshirt', hairFront: 'bangs', hat: 'none', handItem: 'none' },
+            unlocked: ['bg_none', 'bg_room', 'hairBack_none', 'hairBack_long', 'eyes_normal', 'eyes_happy', 'nose_tiny', 'nose_round', 'mouth_smile', 'blush_none', 'bottoms_pants', 'tops_tshirt', 'hairFront_bangs', 'hairFront_center', 'hat_none', 'handItem_none']
+          };
+          setUsers(prev => [...prev, found]);
         }
+
+        setCurrentUser(found);
+        setSelectedStudentForTimetable(found.name);
+        setView('dashboard');
       };
 
       const handleTransactionSubmit = async () => {
@@ -626,18 +804,14 @@
           return;
         }
 
-        // Apply immediately locally 
         const newBalance = transactionType === 'save' 
           ? currentUser.balance + amountNum 
           : currentUser.balance - amountNum;
           
         const updatedUser = {...currentUser, balance: newBalance};
         setCurrentUser(updatedUser);
-        
-        // Optimistic UI back to dashboard immediately as requested
         setView('dashboard');
         
-        // POST to GAS
         const payload = {
           name: currentUser.name,
           amount: amountNum,
@@ -647,20 +821,17 @@
         };
 
         try {
-          // Standard POST request, using no-cors
           await fetch(SCRIPT_URL, {
             method: 'POST',
             mode: 'no-cors',
             headers: { 'Content-Type': 'text/plain;charset=utf-8' },
             body: JSON.stringify(payload)
           });
-          // Background refresh
           setTimeout(fetchUsers, 1500);
         } catch (error) {
           console.error('Transaction error', error);
         }
         
-        // reset fields
         setTxAmount('');
         setTxCategory('');
       };
@@ -676,10 +847,71 @@
         return new Intl.NumberFormat('ko-KR').format(amount) + '원';
       };
 
-      // Inline SVGs (Lucide style)
+      // CSV 내보내기 & 가져오기 기능
+      const exportCSV = (studentName) => {
+        const tt = getStudentTimetable(studentName);
+        let csvContent = "\uFEFF요일,교시,과목명,교실,담당교사,메모,특수학급수업(Y/N)\n";
+        DAYS.forEach(day => {
+          PERIODS.forEach(p => {
+            const item = tt[`${day}-${p}`] || {};
+            const isSp = item.isSpecial ? 'Y' : 'N';
+            csvContent += `"${day}","${p}","${item.subject || ''}","${item.room || ''}","${item.teacher || ''}","${item.memo || ''}","${isSp}"\n`;
+          });
+        });
+
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = `${studentName}_맞춤형_시간표.csv`;
+        link.click();
+      };
+
+      const importCSV = (e, studentName) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          try {
+            const text = event.target.result;
+            const lines = text.split('\n');
+            const newTt = { ...getStudentTimetable(studentName) };
+            
+            for (let i = 1; i < lines.length; i++) {
+              const line = lines[i].trim();
+              if (!line) continue;
+              const cols = line.split(',').map(c => c.replace(/^"|"$/g, '').trim());
+              if (cols.length >= 2) {
+                const day = cols[0];
+                const p = cols[1];
+                if (DAYS.includes(day) && PERIODS.includes(parseInt(p, 10))) {
+                  const key = `${day}-${p}`;
+                  newTt[key] = {
+                    subject: cols[2] || '',
+                    room: cols[3] || '',
+                    teacher: cols[4] || '',
+                    memo: cols[5] || '',
+                    isSpecial: (cols[6] || '').toUpperCase() === 'Y'
+                  };
+                }
+              }
+            }
+            saveTimetableForStudent(studentName, newTt);
+            setAlertMsg(`${studentName} 학생 시간표를 성공적으로 가져왔습니다! 🎉`);
+            setTimeout(() => setAlertMsg(''), 3000);
+          } catch(err) {
+            setAlertMsg('CSV 파일을 읽는 중 오류가 발생했습니다 😢');
+            setTimeout(() => setAlertMsg(''), 3000);
+          }
+        };
+        reader.readAsText(file, 'UTF-8');
+      };
+
+      // Inline SVGs
       const IconUser = () => <svg width="28" height="28" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>;
       const IconLock = () => <svg width="28" height="28" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>;
-      
+      const IconCalendar = () => <svg width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>;
+      const IconCoins = () => <svg width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="8" cy="8" r="6"/><path d="M18 8a6 6 0 0 1-6 6"/><path d="M18 12a6 6 0 0 1-6 6"/></svg>;
+
       const renderLogin = () => {
         const matchingUser = users.find(u => u.name === nickname);
         
@@ -697,7 +929,7 @@
 
           <div className={`text-7xl mb-6 transition-all duration-500 emoji-fix ${matchingUser ? 'opacity-0 scale-50 h-0 overflow-hidden' : 'animate-float opacity-100 scale-100'}`}>🌱</div>
           <h1 className={`text-4xl font-extrabold text-gray-800 mb-3 tracking-tight transition-all duration-500 ${matchingUser ? 'mt-44' : ''}`}>꿈키움 은행</h1>
-          <p className="text-gray-500 mb-12 text-center text-lg leading-relaxed font-medium">나의 소중한 자산을<br/>스스로 관리해요</p>
+          <p className="text-gray-500 mb-12 text-center text-lg leading-relaxed font-medium">나의 소중한 자산과 시간표를<br/>스스로 스마트하게 관리해요</p>
 
           <form onSubmit={handleLogin} className="w-full space-y-5">
             <div className="bg-white p-3 rounded-[35px] flex items-center shadow-[0_8px_30px_rgb(0,0,0,0.04)] px-6 min-h-[70px]">
@@ -742,9 +974,260 @@
         );
       };
 
+      // --- 학생 뷰 (개인별 맞춤형 시간표 뷰) ---
+      const renderStudentTimetable = () => {
+        const studentTt = getStudentTimetable(currentUser?.name);
+        
+        // 시간 및 현재 요일 계산
+        const now = new Date();
+        const dayNames = ['일', '월', '화', '수', '목', '금', '토'];
+        const currentDayStr = dayNames[now.getDay()]; // '월', '화' ...
+        const activeDay = DAYS.includes(currentDayStr) ? currentDayStr : '월'; // 주말이면 월요일 기본
+
+        const currentTimeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+        
+        // 현재 교시 구하기
+        let currentPeriodObj = PERIOD_TIMES.find(pt => currentTimeStr >= pt.start && currentTimeStr <= pt.end);
+        let currentPeriodNum = currentPeriodObj ? currentPeriodObj.period : null;
+
+        // UDL 폰트 스타일 매핑
+        const fontClasses = {
+          normal: 'text-base',
+          large: 'text-lg font-semibold',
+          xlarge: 'text-xl font-bold'
+        };
+
+        const titleFontClasses = {
+          normal: 'text-xl font-extrabold',
+          large: 'text-2xl font-extrabold',
+          xlarge: 'text-3xl font-extrabold'
+        };
+
+        return (
+          <div className="flex-1 flex flex-col overflow-hidden bg-slate-50 relative p-4 sm:p-6 animate-slide-up">
+            
+            {/* UDL 접근성 폰트 조절 바 & 뷰 선택 탭 */}
+            <div className="flex flex-wrap items-center justify-between gap-3 mb-4 bg-white p-4 rounded-3xl shadow-sm border border-slate-100 flex-shrink-0">
+              <div className="flex items-center space-x-2">
+                <button 
+                  onClick={() => setTimetableSubView('today')} 
+                  className={`px-5 py-2.5 rounded-2xl font-bold text-sm transition-all flex items-center ${timetableSubView === 'today' ? 'bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-md' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}
+                >
+                  <span className="mr-2 emoji-fix">📍</span> 오늘의 일정 (Today)
+                </button>
+                <button 
+                  onClick={() => setTimetableSubView('weekly')} 
+                  className={`px-5 py-2.5 rounded-2xl font-bold text-sm transition-all flex items-center ${timetableSubView === 'weekly' ? 'bg-gradient-to-r from-blue-500 to-indigo-500 text-white shadow-md' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}
+                >
+                  <span className="mr-2 emoji-fix">🗓️</span> 주간 시간표 (Weekly)
+                </button>
+              </div>
+
+              {/* UDL Font Size Toggle */}
+              <div className="flex items-center space-x-1.5 bg-slate-100 p-1.5 rounded-2xl">
+                <span className="text-xs font-bold text-slate-500 px-2">글자 크기:</span>
+                <button 
+                  onClick={() => handleUdlFontChange('normal')} 
+                  className={`px-3 py-1 rounded-xl text-xs font-bold transition-all ${udlFontSize === 'normal' ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-500'}`}
+                >
+                  보통
+                </button>
+                <button 
+                  onClick={() => handleUdlFontChange('large')} 
+                  className={`px-3 py-1 rounded-xl text-xs font-bold transition-all ${udlFontSize === 'large' ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-500'}`}
+                >
+                  크게
+                </button>
+                <button 
+                  onClick={() => handleUdlFontChange('xlarge')} 
+                  className={`px-3 py-1 rounded-xl text-xs font-bold transition-all ${udlFontSize === 'xlarge' ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-500'}`}
+                >
+                  아주 크게
+                </button>
+              </div>
+            </div>
+
+            {/* --- Today View (오늘의 일정 대시보드) --- */}
+            {timetableSubView === 'today' && (
+              <div className="flex-1 overflow-y-auto space-y-4 pr-1 pb-4">
+                <div className="bg-gradient-to-r from-indigo-500 via-teal-500 to-emerald-500 rounded-3xl p-6 text-white shadow-lg relative overflow-hidden flex-shrink-0">
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <span className="bg-white/20 backdrop-blur-md px-4 py-1.5 rounded-full text-xs font-extrabold tracking-wide uppercase">
+                        Today's Schedule • {activeDay}요일
+                      </span>
+                      <h3 className={`mt-3 ${titleFontClasses[udlFontSize]}`}>
+                        오늘의 맞춤 시간표 🌟
+                      </h3>
+                      <p className="text-white/80 text-sm mt-1">
+                        교실 이동 위치와 준비물을 확인해요.
+                      </p>
+                    </div>
+                    <div className="text-4xl emoji-fix">🎒</div>
+                  </div>
+                </div>
+
+                {/* 특수학급 이동 수업 알림 뱃지/배너 (현재 또는 다음 교시가 특수학급 수업일 때) */}
+                {PERIODS.some(p => {
+                  const cell = studentTt[`${activeDay}-${p}`];
+                  return cell && cell.isSpecial;
+                }) && (
+                  <div className="bg-emerald-50 border-2 border-emerald-400 p-5 rounded-3xl shadow-sm flex items-center space-x-4 animate-slide-up">
+                    <div className="w-14 h-14 bg-emerald-500 text-white rounded-2xl flex items-center justify-center text-2xl flex-shrink-0 shadow-md emoji-fix">
+                      🏃‍♂️
+                    </div>
+                    <div className="flex-1">
+                      <div className="flex items-center space-x-2">
+                        <span className="bg-emerald-600 text-white text-xs px-3 py-1 rounded-full font-extrabold">
+                          특수학급 / 개별화 수업 알림
+                        </span>
+                      </div>
+                      <p className="text-emerald-950 font-bold text-base mt-1.5">
+                        오늘은 <span className="underline decoration-emerald-400 decoration-2">꿈키움반(특수학급실)</span> 이동 수업이 있습니다!
+                      </p>
+                      <p className="text-emerald-700 text-xs mt-0.5 font-medium">
+                        시간표에 🌟 특수학급 표시가 있는 교시에는 1층 특수학급실로 이동하세요.
+                      </p>
+                    </div>
+                  </div>
+                )}
+
+                {/* 1~7교시 타임라인 카드 목록 */}
+                <div className="space-y-3">
+                  {PERIODS.map(p => {
+                    const key = `${activeDay}-${p}`;
+                    const cell = studentTt[key] || {};
+                    const isCurrent = currentPeriodNum === p;
+                    const style = SUBJECT_COLORS[cell.subject] || (cell.isSpecial ? SUBJECT_COLORS['특수학급'] : SUBJECT_COLORS['default']);
+
+                    return (
+                      <div 
+                        key={p} 
+                        className={`p-5 rounded-3xl border-2 transition-all flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 ${cell.isSpecial ? 'bg-emerald-50/90 border-emerald-400 shadow-md ring-2 ring-emerald-200' : `${style.bg} ${style.border}`} ${isCurrent ? 'ring-4 ring-indigo-400 shadow-lg scale-[1.01]' : ''}`}
+                      >
+                        <div className="flex items-center space-x-4">
+                          <div className={`w-14 h-14 rounded-2xl flex flex-col items-center justify-center font-extrabold flex-shrink-0 shadow-sm ${isCurrent ? 'bg-indigo-600 text-white' : 'bg-white/80 text-slate-700'}`}>
+                            <span className="text-xs">교시</span>
+                            <span className="text-xl leading-none">{p}</span>
+                          </div>
+                          
+                          <div>
+                            <div className="flex items-center space-x-2">
+                              <span className={`text-xs px-2.5 py-0.5 rounded-full font-extrabold ${style.badge}`}>
+                                {PERIOD_TIMES[p-1].start} ~ {PERIOD_TIMES[p-1].end}
+                              </span>
+                              {cell.isSpecial && (
+                                <span className="bg-emerald-600 text-white text-xs px-3 py-0.5 rounded-full font-black animate-pulse shadow-sm">
+                                  🌟 특수학급 (이동수업)
+                                </span>
+                              )}
+                              {isCurrent && (
+                                <span className="bg-indigo-600 text-white text-xs px-2.5 py-0.5 rounded-full font-black animate-bounce">
+                                  ▶ 현재 교시
+                                </span>
+                              )}
+                            </div>
+
+                            <h4 className={`mt-1 font-bold ${style.text} ${fontClasses[udlFontSize]}`}>
+                              {cell.subject || '수업 없음'}
+                            </h4>
+
+                            {cell.memo && (
+                              <p className="text-xs text-slate-500 mt-1 flex items-center">
+                                <span className="mr-1">📌</span> {cell.memo}
+                              </p>
+                            )}
+                          </div>
+                        </div>
+
+                        <div className="flex flex-row sm:flex-col items-center sm:items-end justify-between w-full sm:w-auto pt-2 sm:pt-0 border-t sm:border-t-0 border-slate-200/60">
+                          <div className={`px-4 py-2 rounded-2xl text-xs font-extrabold flex items-center ${cell.isSpecial ? 'bg-emerald-600 text-white shadow-sm' : 'bg-white/90 text-slate-700 border border-slate-200'}`}>
+                            <span className="mr-1">📍</span> {cell.room || '교실 미지정'}
+                          </div>
+                          {cell.teacher && (
+                            <span className="text-xs font-bold text-slate-500 mt-1">
+                              👩‍🏫 {cell.teacher}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
+            {/* --- Weekly View (주간 5x7 시간표 그리드) --- */}
+            {timetableSubView === 'weekly' && (
+              <div className="flex-1 overflow-auto bg-white p-4 rounded-3xl shadow-sm border border-slate-100">
+                <div className="min-w-[700px]">
+                  {/* 요일 헤더 */}
+                  <div className="grid grid-cols-6 gap-2 mb-2 text-center font-extrabold text-slate-600 text-sm">
+                    <div className="p-3 bg-slate-100 rounded-2xl">교시</div>
+                    {DAYS.map(day => (
+                      <div key={day} className={`p-3 rounded-2xl ${activeDay === day ? 'bg-indigo-500 text-white shadow-sm' : 'bg-slate-100 text-slate-700'}`}>
+                        {day}요일
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* 1~7교시 행 */}
+                  {PERIODS.map(p => (
+                    <div key={p} className="grid grid-cols-6 gap-2 mb-2">
+                      <div className="bg-slate-50 p-2 rounded-2xl flex flex-col items-center justify-center border border-slate-100 text-slate-500 font-bold text-xs">
+                        <span className="text-indigo-600 font-extrabold text-sm">{p}교시</span>
+                        <span className="text-[10px]">{PERIOD_TIMES[p-1].start}</span>
+                      </div>
+                      
+                      {DAYS.map(day => {
+                        const key = `${day}-${p}`;
+                        const cell = studentTt[key] || {};
+                        const style = SUBJECT_COLORS[cell.subject] || (cell.isSpecial ? SUBJECT_COLORS['특수학급'] : SUBJECT_COLORS['default']);
+
+                        return (
+                          <div 
+                            key={key} 
+                            className={`p-3 rounded-2xl border-2 transition-all flex flex-col justify-between min-h-[95px] relative ${cell.isSpecial ? 'bg-emerald-50 border-emerald-400 shadow-sm ring-1 ring-emerald-300' : `${style.bg} ${style.border}`}`}
+                          >
+                            {cell.isSpecial && (
+                              <div className="absolute top-1.5 right-1.5 bg-emerald-600 text-white text-[10px] px-2 py-0.5 rounded-full font-black shadow-xs">
+                                🌟 특수
+                              </div>
+                            )}
+
+                            <div>
+                              <div className={`font-bold ${style.text} ${fontClasses[udlFontSize]}`}>
+                                {cell.subject || '-'}
+                              </div>
+                              {cell.room && (
+                                <div className={`mt-1 inline-block text-[11px] px-2 py-0.5 rounded-lg font-bold ${cell.isSpecial ? 'bg-emerald-600 text-white' : 'bg-white/80 text-slate-700'}`}>
+                                  📍 {cell.room}
+                                </div>
+                              )}
+                            </div>
+
+                            {cell.teacher && (
+                              <div className="text-[10px] font-medium text-slate-500 mt-2 truncate">
+                                👩‍🏫 {cell.teacher}
+                              </div>
+                            )}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+          </div>
+        );
+      };
+
       const renderDashboard = () => (
         <div className="flex flex-col p-7 h-full bg-[#f8fafc] relative animate-slide-up">
-          <div className="flex justify-between items-center mb-6 pt-2">
+          {/* Header & Logout */}
+          <div className="flex justify-between items-center mb-4 pt-2">
             <h2 className="text-3xl font-bold text-gray-800 tracking-tight">
               안녕, <span className="text-blue-500">{currentUser?.name}</span>님!
             </h2>
@@ -753,55 +1236,81 @@
             </button>
           </div>
 
-          <div 
-            onClick={() => {
-              setAvatarTemp(currentUser?.avatar || {});
-              setAvatarTab('skin');
-              setView('avatar-studio');
-            }}
-            className="flex items-center space-x-5 mb-8 cursor-pointer active:scale-95 transition-all bg-white rounded-[35px] p-4 shadow-[0_10px_25px_rgba(0,0,0,0.04)] hover:shadow-[0_15px_35px_rgba(99,102,241,0.1)] border-2 border-transparent hover:border-indigo-100"
-          >
-            <div className="w-20 h-20 bg-gradient-to-br from-indigo-50 to-blue-50 rounded-full flex items-center justify-center flex-shrink-0 shadow-inner overflow-hidden border-4 border-white">
-               <Avatar config={currentUser?.avatar} className="w-28 h-28 transform translate-y-3 drop-shadow-md" />
-            </div>
-            <div className="flex-1 pr-2">
-               <p className="text-gray-400 font-extrabold text-sm mb-1 uppercase tracking-widest">Avatar Studio</p>
-               <p className="text-indigo-600 font-extrabold flex items-center text-xl">내 아바타 꾸미기 <span className="ml-2 text-2xl emoji-fix">✨</span></p>
-            </div>
-          </div>
-
-          <div className="bg-gradient-to-br from-[#60a5fa] via-[#818cf8] to-[#c084fc] rounded-[45px] p-9 text-white shadow-[0_20px_40px_rgba(99,102,241,0.25)] mb-8 relative overflow-hidden flex-shrink-0">
-            <div className="absolute top-0 right-0 p-8 opacity-20 transform translate-x-4 -translate-y-4">
-              <svg width="150" height="150" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
-            </div>
-            <p className="text-blue-100 font-bold mb-3 opacity-90 text-xl">내 통장 잔액</p>
-            <h1 className="text-6xl font-extrabold tracking-tight mt-1">
-              {formatMoney(currentUser?.balance || 0)}
-            </h1>
-          </div>
-
-          <div className="flex flex-col gap-5 mt-auto pb-6">
+          {/* 상단 탭 전환: [상벌점/자산 관리] vs [개인별 맞춤 시간표] */}
+          <div className="flex bg-slate-200/70 p-1.5 rounded-3xl mb-6 shadow-inner">
             <button 
-              onClick={() => openTransaction('save')}
-              className="btn bg-gradient-to-br from-[#dcfce7] to-[#bbf7d0] text-[#166534] p-7 rounded-[40px] flex items-center shadow-sm"
+              onClick={() => setMainTab('points')}
+              className={`flex-1 py-3 rounded-2xl font-extrabold text-base transition-all flex items-center justify-center space-x-2 ${mainTab === 'points' ? 'bg-white text-indigo-600 shadow-md' : 'text-slate-600 hover:text-slate-900'}`}
             >
-              <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center text-3xl shadow-sm mr-5 emoji-fix">📈</div>
-              <div className="text-left">
-                <div className="text-2xl font-extrabold mb-1">저축하기</div>
-                <div className="text-[#15803d] font-medium">통장에 돈을 넣어요</div>
-              </div>
+              <IconCoins/>
+              <span>자산 & 저축/사용</span>
             </button>
             <button 
-              onClick={() => openTransaction('use')}
-              className="btn bg-gradient-to-br from-[#fce7f3] to-[#fbcfe8] text-[#9d174d] p-7 rounded-[40px] flex items-center shadow-sm"
+              onClick={() => setMainTab('timetable')}
+              className={`flex-1 py-3 rounded-2xl font-extrabold text-base transition-all flex items-center justify-center space-x-2 ${mainTab === 'timetable' ? 'bg-white text-indigo-600 shadow-md' : 'text-slate-600 hover:text-slate-900'}`}
             >
-              <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center text-3xl shadow-sm mr-5 emoji-fix">🛍️</div>
-              <div className="text-left">
-                <div className="text-2xl font-extrabold mb-1">사용하기</div>
-                <div className="text-[#be185d] font-medium">사고 싶은 걸 사요</div>
-              </div>
+              <IconCalendar/>
+              <span>개인별 시간표</span>
             </button>
           </div>
+
+          {/* 탭 1: 자산 관리 */}
+          {mainTab === 'points' && (
+            <div className="flex-1 flex flex-col">
+              <div 
+                onClick={() => {
+                  setAvatarTemp(currentUser?.avatar || {});
+                  setAvatarTab('skin');
+                  setView('avatar-studio');
+                }}
+                className="flex items-center space-x-5 mb-6 cursor-pointer active:scale-95 transition-all bg-white rounded-[35px] p-4 shadow-[0_10px_25px_rgba(0,0,0,0.04)] hover:shadow-[0_15px_35px_rgba(99,102,241,0.1)] border-2 border-transparent hover:border-indigo-100"
+              >
+                <div className="w-20 h-20 bg-gradient-to-br from-indigo-50 to-blue-50 rounded-full flex items-center justify-center flex-shrink-0 shadow-inner overflow-hidden border-4 border-white">
+                   <Avatar config={currentUser?.avatar} className="w-28 h-28 transform translate-y-3 drop-shadow-md" />
+                </div>
+                <div className="flex-1 pr-2">
+                   <p className="text-gray-400 font-extrabold text-sm mb-1 uppercase tracking-widest">Avatar Studio</p>
+                   <p className="text-indigo-600 font-extrabold flex items-center text-xl">내 아바타 꾸미기 <span className="ml-2 text-2xl emoji-fix">✨</span></p>
+                </div>
+              </div>
+
+              <div className="bg-gradient-to-br from-[#60a5fa] via-[#818cf8] to-[#c084fc] rounded-[45px] p-9 text-white shadow-[0_20px_40px_rgba(99,102,241,0.25)] mb-6 relative overflow-hidden flex-shrink-0">
+                <div className="absolute top-0 right-0 p-8 opacity-20 transform translate-x-4 -translate-y-4">
+                  <svg width="150" height="150" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+                </div>
+                <p className="text-blue-100 font-bold mb-3 opacity-90 text-xl">내 통장 잔액</p>
+                <h1 className="text-6xl font-extrabold tracking-tight mt-1">
+                  {formatMoney(currentUser?.balance || 0)}
+                </h1>
+              </div>
+
+              <div className="flex flex-col gap-4 mt-auto pb-4">
+                <button 
+                  onClick={() => openTransaction('save')}
+                  className="btn bg-gradient-to-br from-[#dcfce7] to-[#bbf7d0] text-[#166534] p-6 rounded-[40px] flex items-center shadow-sm"
+                >
+                  <div className="w-14 h-14 bg-white rounded-full flex items-center justify-center text-3xl shadow-sm mr-5 emoji-fix">📈</div>
+                  <div className="text-left">
+                    <div className="text-2xl font-extrabold mb-1">저축하기</div>
+                    <div className="text-[#15803d] font-medium">통장에 돈을 넣어요</div>
+                  </div>
+                </button>
+                <button 
+                  onClick={() => openTransaction('use')}
+                  className="btn bg-gradient-to-br from-[#fce7f3] to-[#fbcfe8] text-[#9d174d] p-6 rounded-[40px] flex items-center shadow-sm"
+                >
+                  <div className="w-14 h-14 bg-white rounded-full flex items-center justify-center text-3xl shadow-sm mr-5 emoji-fix">🛍️</div>
+                  <div className="text-left">
+                    <div className="text-2xl font-extrabold mb-1">사용하기</div>
+                    <div className="text-[#be185d] font-medium">사고 싶은 걸 사요</div>
+                  </div>
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* 탭 2: 맞춤형 개인 시간표 */}
+          {mainTab === 'timetable' && renderStudentTimetable()}
         </div>
       );
 
@@ -900,48 +1409,347 @@
         );
       };
 
-      const renderAdmin = () => (
-        <div className="flex flex-col p-7 h-full bg-[#f8fafc] animate-slide-up">
-          <div className="flex justify-between items-center mb-8 pt-4">
-            <h2 className="text-3xl font-extrabold text-gray-800 flex items-center">
-              <span className="mr-3 text-4xl emoji-fix">👑</span> 전체 현황
-            </h2>
-            <button onClick={() => setView('login')} className="text-lg bg-white shadow-sm text-gray-600 px-6 py-3 rounded-full font-bold active:scale-95 transition-all">
-              나가기
-            </button>
-          </div>
+      // --- 관리자(교사) 화면 & 시간표 그리드 에디터 ---
+      const renderAdmin = () => {
+        const targetStudent = selectedStudentForTimetable || (users[0] && users[0].name) || '튤립';
+        const currentTt = getStudentTimetable(targetStudent);
 
-          <div className="flex justify-between items-center mb-6 px-3">
-            <span className="text-gray-500 font-bold text-lg">학생 명단 ({users.length}명)</span>
-            <button onClick={fetchUsers} className="text-blue-500 text-lg font-bold flex items-center active:scale-95 transition-all">
-              <svg width="20" height="20" className="mr-2" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M21 2v6h-6"/><path d="M3 12a9 9 0 1 0 2.13-5.88L2 9"/></svg>
-              새로고침
-            </button>
-          </div>
+        const openEditCell = (day, p) => {
+          const key = `${day}-${p}`;
+          const existing = currentTt[key] || { subject: '', room: '', teacher: '', memo: '', isSpecial: false };
+          setEditingCellKey(key);
+          setCellForm({ ...existing });
+        };
 
-          <div className="space-y-4 overflow-y-auto flex-1 pb-6 px-1">
-            {users.map((u, i) => (
-              <div key={i} className="bg-white p-6 rounded-[35px] shadow-[0_5px_15px_rgba(0,0,0,0.03)] flex justify-between items-center flex-row">
-                <div className="flex items-center">
-                  <div className="w-14 h-14 bg-gradient-to-br from-blue-100 to-indigo-100 rounded-full flex items-center justify-center text-2xl mr-5 text-blue-600 font-extrabold shadow-inner">
-                    {u.name.charAt(0)}
-                  </div>
-                  <span className="text-2xl font-bold text-gray-800">{u.name}</span>
+        const saveEditCell = () => {
+          if (!editingCellKey) return;
+          const updated = {
+            ...currentTt,
+            [editingCellKey]: { ...cellForm }
+          };
+          saveTimetableForStudent(targetStudent, updated);
+          setEditingCellKey(null);
+        };
+
+        const copyDefaultTimetable = () => {
+          if (window.confirm(`[${targetStudent}] 학생의 시간표를 학급 기본 시간표로 초기화/복사할까요?`)) {
+            saveTimetableForStudent(targetStudent, { ...DEFAULT_CLASS_TIMETABLE });
+            setAlertMsg('기본 시간표가 복사되었습니다! 🎉');
+            setTimeout(() => setAlertMsg(''), 3000);
+          }
+        };
+
+        return (
+          <div className="flex flex-col p-6 h-full bg-[#f8fafc] animate-slide-up overflow-hidden">
+            {/* Admin Header */}
+            <div className="flex justify-between items-center mb-4 pt-2">
+              <h2 className="text-3xl font-extrabold text-gray-800 flex items-center">
+                <span className="mr-3 text-4xl emoji-fix">👑</span> 관리자 패널
+              </h2>
+              <button onClick={() => setView('login')} className="text-base bg-white shadow-sm text-gray-600 px-5 py-2.5 rounded-full font-bold active:scale-95 transition-all">
+                나가기
+              </button>
+            </div>
+
+            {/* Admin Tab Switcher */}
+            <div className="flex bg-slate-200/70 p-1.5 rounded-3xl mb-6 shadow-inner flex-shrink-0">
+              <button 
+                onClick={() => setAdminTab('points')}
+                className={`flex-1 py-3 rounded-2xl font-extrabold text-base transition-all flex items-center justify-center space-x-2 ${adminTab === 'points' ? 'bg-white text-indigo-600 shadow-md' : 'text-slate-600 hover:text-slate-900'}`}
+              >
+                <IconCoins/>
+                <span>학생 상벌점/자산 현황</span>
+              </button>
+              <button 
+                onClick={() => setAdminTab('timetable')}
+                className={`flex-1 py-3 rounded-2xl font-extrabold text-base transition-all flex items-center justify-center space-x-2 ${adminTab === 'timetable' ? 'bg-white text-indigo-600 shadow-md' : 'text-slate-600 hover:text-slate-900'}`}
+              >
+                <IconCalendar/>
+                <span>학생별 맞춤 시간표 관리</span>
+              </button>
+            </div>
+
+            {/* Admin Tab 1: 상벌점/자산 현황 */}
+            {adminTab === 'points' && (
+              <div className="flex-1 flex flex-col min-h-0">
+                <div className="flex justify-between items-center mb-4 px-2">
+                  <span className="text-gray-500 font-bold text-lg">학생 명단 ({users.length}명)</span>
+                  <button onClick={fetchUsers} className="text-blue-500 text-lg font-bold flex items-center active:scale-95 transition-all">
+                    <svg width="20" height="20" className="mr-2" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M21 2v6h-6"/><path d="M3 12a9 9 0 1 0 2.13-5.88L2 9"/></svg>
+                    새로고침
+                  </button>
                 </div>
-                <span className="text-3xl font-extrabold text-[#3b82f6]">
-                  {formatMoney(u.balance || 0)}
-                </span>
+
+                <div className="space-y-4 overflow-y-auto flex-1 pb-6 px-1">
+                  {users.map((u, i) => (
+                    <div key={i} className="bg-white p-5 rounded-[30px] shadow-[0_5px_15px_rgba(0,0,0,0.03)] flex justify-between items-center flex-row">
+                      <div className="flex items-center">
+                        <div className="w-14 h-14 bg-gradient-to-br from-blue-100 to-indigo-100 rounded-full flex items-center justify-center text-2xl mr-4 text-blue-600 font-extrabold shadow-inner">
+                          {u.name.charAt(0)}
+                        </div>
+                        <div>
+                          <span className="text-2xl font-bold text-gray-800">{u.name}</span>
+                          <p className="text-xs text-slate-400 font-medium">꿈키움 은행 계좌 보유</p>
+                        </div>
+                      </div>
+                      
+                      <div className="flex items-center space-x-3">
+                        <span className="text-2xl font-extrabold text-[#3b82f6] mr-2">
+                          {formatMoney(u.balance || 0)}
+                        </span>
+                        <button 
+                          onClick={() => {
+                            setSelectedStudentForTimetable(u.name);
+                            setAdminTab('timetable');
+                          }}
+                          className="bg-indigo-50 text-indigo-600 hover:bg-indigo-100 font-extrabold text-xs px-4 py-2.5 rounded-2xl transition-all flex items-center"
+                        >
+                          <span className="mr-1">📅</span> 시간표 편집
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                  {loading && users.length === 0 && (
+                    <div className="text-center text-gray-400 py-10 text-xl font-bold">불러오는 중...</div>
+                  )}
+                </div>
               </div>
-            ))}
-            {loading && users.length === 0 && (
-              <div className="text-center text-gray-400 py-10 text-xl font-bold">불러오는 중...</div>
             )}
-            {!loading && users.length === 0 && (
-              <div className="text-center text-gray-400 py-10 text-xl font-bold">등록된 학생이 없습니다.</div>
+
+            {/* Admin Tab 2: 시간표 관리 (편집 에디터) */}
+            {adminTab === 'timetable' && (
+              <div className="flex-1 flex flex-col overflow-hidden bg-white p-5 rounded-3xl shadow-sm border border-slate-100">
+                {/* 컨트롤 바 */}
+                <div className="flex flex-wrap items-center justify-between gap-3 mb-4 bg-slate-50 p-4 rounded-2xl border border-slate-200/80 flex-shrink-0">
+                  <div className="flex items-center space-x-3">
+                    <label className="font-extrabold text-slate-700 text-sm">학생 선택:</label>
+                    <select 
+                      value={targetStudent}
+                      onChange={e => setSelectedStudentForTimetable(e.target.value)}
+                      className="bg-white border border-slate-300 rounded-xl px-4 py-2 font-bold text-slate-800 outline-none focus:ring-2 focus:ring-indigo-400 shadow-xs"
+                    >
+                      {users.map(u => (
+                        <option key={u.name} value={u.name}>{u.name} 학생</option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div className="flex flex-wrap items-center gap-2">
+                    <button 
+                      onClick={copyDefaultTimetable}
+                      className="bg-amber-100 hover:bg-amber-200 text-amber-900 px-4 py-2 rounded-xl text-xs font-extrabold transition-all shadow-xs"
+                    >
+                      📋 기본 시간표 복사
+                    </button>
+                    <button 
+                      onClick={() => exportCSV(targetStudent)}
+                      className="bg-emerald-100 hover:bg-emerald-200 text-emerald-900 px-4 py-2 rounded-xl text-xs font-extrabold transition-all shadow-xs"
+                    >
+                      📥 CSV 다운로드
+                    </button>
+                    <label className="bg-blue-100 hover:bg-blue-200 text-blue-900 px-4 py-2 rounded-xl text-xs font-extrabold cursor-pointer transition-all shadow-xs">
+                      📤 CSV 업로드
+                      <input type="file" accept=".csv" onChange={(e) => importCSV(e, targetStudent)} className="hidden" />
+                    </label>
+                  </div>
+                </div>
+
+                <p className="text-xs text-slate-500 font-bold mb-3 flex items-center">
+                  💡 안내: 각 시간표 셀을 클릭하면 과목명, 교실 위치, 담당 교사, 메모 및 <span className="text-emerald-600 font-extrabold mx-1">🌟 특수학급/개별화 수업 여부</span>를 편집할 수 있습니다.
+                </p>
+
+                {/* 5x7 그리드 타임테이블 에디터 */}
+                <div className="flex-1 overflow-auto">
+                  <div className="min-w-[700px]">
+                    <div className="grid grid-cols-6 gap-2 mb-2 text-center font-extrabold text-slate-600 text-sm">
+                      <div className="p-2.5 bg-slate-100 rounded-xl">교시</div>
+                      {DAYS.map(day => (
+                        <div key={day} className="p-2.5 bg-indigo-100 text-indigo-900 rounded-xl">
+                          {day}요일
+                        </div>
+                      ))}
+                    </div>
+
+                    {PERIODS.map(p => (
+                      <div key={p} className="grid grid-cols-6 gap-2 mb-2">
+                        <div className="bg-slate-50 p-2 rounded-xl flex flex-col items-center justify-center border border-slate-100 text-slate-500 font-bold text-xs">
+                          <span className="text-indigo-600 font-extrabold">{p}교시</span>
+                          <span className="text-[10px]">{PERIOD_TIMES[p-1].start}</span>
+                        </div>
+
+                        {DAYS.map(day => {
+                          const key = `${day}-${p}`;
+                          const cell = currentTt[key] || {};
+                          const style = SUBJECT_COLORS[cell.subject] || (cell.isSpecial ? SUBJECT_COLORS['특수학급'] : SUBJECT_COLORS['default']);
+
+                          return (
+                            <button 
+                              key={key}
+                              onClick={() => openEditCell(day, p)}
+                              className={`p-2.5 rounded-xl border-2 transition-all text-left flex flex-col justify-between min-h-[90px] relative hover:scale-[1.02] hover:shadow-md cursor-pointer ${cell.isSpecial ? 'bg-emerald-50 border-emerald-400 ring-2 ring-emerald-200' : `${style.bg} ${style.border}`}`}
+                            >
+                              {cell.isSpecial && (
+                                <span className="absolute top-1 right-1 bg-emerald-600 text-white text-[9px] px-1.5 py-0.5 rounded-md font-black">
+                                  🌟 특수
+                                </span>
+                              )}
+
+                              <div>
+                                <span className={`font-extrabold text-sm block ${style.text}`}>
+                                  {cell.subject || '(빈 교시)'}
+                                </span>
+                                {cell.room && (
+                                  <span className={`text-[10px] px-1.5 py-0.5 rounded font-bold mt-1 inline-block ${cell.isSpecial ? 'bg-emerald-600 text-white' : 'bg-white/80 text-slate-700'}`}>
+                                    📍 {cell.room}
+                                  </span>
+                                )}
+                              </div>
+
+                              {cell.teacher && (
+                                <span className="text-[10px] text-slate-500 truncate block mt-1">
+                                  👩‍🏫 {cell.teacher}
+                                </span>
+                              )}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+              </div>
+            )}
+
+            {/* 셀 편집 모달 */}
+            {editingCellKey && (
+              <div className="fixed inset-0 bg-black/40 backdrop-blur-xs flex items-center justify-center p-4 z-50 animate-slide-up">
+                <div className="bg-white rounded-3xl p-6 w-full max-w-md shadow-2xl border-2 border-indigo-100">
+                  <div className="flex justify-between items-center mb-4 border-b border-slate-100 pb-3">
+                    <h3 className="text-xl font-extrabold text-slate-800">
+                      {editingCellKey} 교시 시간표 편집
+                    </h3>
+                    <button onClick={() => setEditingCellKey(null)} className="text-slate-400 hover:text-slate-600 font-bold text-lg">
+                      ✕
+                    </button>
+                  </div>
+
+                  <div className="space-y-4">
+                    {/* 특수학급/개별화 수업 원클릭 강조 전환 버튼 */}
+                    <div className="bg-emerald-50 p-4 rounded-2xl border border-emerald-200 flex items-center justify-between">
+                      <div>
+                        <span className="font-extrabold text-emerald-950 text-sm block">🌟 특수학급 / 개별화 이동수업</span>
+                        <span className="text-xs text-emerald-700 font-medium">특수학급실(꿈키움반) 이동 강조 표출</span>
+                      </div>
+                      <button 
+                        type="button"
+                        onClick={() => {
+                          const nextState = !cellForm.isSpecial;
+                          setCellForm({
+                            ...cellForm,
+                            isSpecial: nextState,
+                            subject: nextState ? (cellForm.subject || '특수학급(개별화)') : cellForm.subject,
+                            room: nextState ? (cellForm.room || '꿈키움반(1층)') : cellForm.room
+                          });
+                        }}
+                        className={`px-4 py-2 rounded-xl text-xs font-black transition-all ${cellForm.isSpecial ? 'bg-emerald-600 text-white shadow-md' : 'bg-white text-emerald-700 border border-emerald-300'}`}
+                      >
+                        {cellForm.isSpecial ? '✓ 특수학급 수업 설정됨' : '+ 특수학급 지정'}
+                      </button>
+                    </div>
+
+                    {/* 과목명 입력 & 프리셋 */}
+                    <div>
+                      <label className="block text-xs font-bold text-slate-600 mb-1">과목명</label>
+                      <input 
+                        type="text"
+                        placeholder="예: 국어, 수학, 특수학급"
+                        value={cellForm.subject}
+                        onChange={e => setCellForm({ ...cellForm, subject: e.target.value })}
+                        className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl font-bold outline-none focus:ring-2 focus:ring-indigo-400"
+                      />
+                      <div className="flex flex-wrap gap-1.5 mt-2">
+                        {['국어', '수학', '사회', '과학', '영어', '체육', '음악', '미술', '창체', '특수학급'].map(sub => (
+                          <button 
+                            key={sub}
+                            type="button"
+                            onClick={() => setCellForm({ 
+                              ...cellForm, 
+                              subject: sub, 
+                              isSpecial: sub === '특수학급' ? true : cellForm.isSpecial,
+                              room: sub === '특수학급' ? '꿈키움반(1층)' : cellForm.room 
+                            })}
+                            className="px-2.5 py-1 bg-slate-100 hover:bg-indigo-100 text-slate-700 font-bold text-xs rounded-lg transition-all"
+                          >
+                            {sub}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* 교실 위치 */}
+                    <div>
+                      <label className="block text-xs font-bold text-slate-600 mb-1">교실 (장소)</label>
+                      <input 
+                        type="text"
+                        placeholder="예: 4-1교실, 꿈키움반(1층), 과학실"
+                        value={cellForm.room}
+                        onChange={e => setCellForm({ ...cellForm, room: e.target.value })}
+                        className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl font-bold outline-none focus:ring-2 focus:ring-indigo-400"
+                      />
+                    </div>
+
+                    {/* 담당 교사 */}
+                    <div>
+                      <label className="block text-xs font-bold text-slate-600 mb-1">담당 교사</label>
+                      <input 
+                        type="text"
+                        placeholder="예: 김선생님, 강선생님"
+                        value={cellForm.teacher}
+                        onChange={e => setCellForm({ ...cellForm, teacher: e.target.value })}
+                        className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl font-bold outline-none focus:ring-2 focus:ring-indigo-400"
+                      />
+                    </div>
+
+                    {/* 메모/준비물 */}
+                    <div>
+                      <label className="block text-xs font-bold text-slate-600 mb-1">메모 / 준비물</label>
+                      <input 
+                        type="text"
+                        placeholder="예: 배움공책 준비, 이동시 조용히"
+                        value={cellForm.memo}
+                        onChange={e => setCellForm({ ...cellForm, memo: e.target.value })}
+                        className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl font-bold outline-none focus:ring-2 focus:ring-indigo-400"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="flex space-x-3 mt-6">
+                    <button 
+                      onClick={() => setEditingCellKey(null)}
+                      className="flex-1 py-3 bg-slate-100 text-slate-600 font-bold rounded-2xl hover:bg-slate-200 transition-all"
+                    >
+                      취소
+                    </button>
+                    <button 
+                      onClick={saveEditCell}
+                      className="flex-1 py-3 bg-indigo-600 text-white font-extrabold rounded-2xl shadow-lg hover:bg-indigo-700 transition-all"
+                    >
+                      저장하기
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {alertMsg && (
+              <div className="absolute top-8 left-1/2 transform -translate-x-1/2 bg-red-100 text-red-600 px-8 py-4 rounded-full font-bold shadow-xl animate-slide-up text-lg z-50">
+                {alertMsg}
+              </div>
             )}
           </div>
-        </div>
-      );
+        );
+      };
 
       const renderAvatarStudio = () => {
          const handleBuy = (type, item) => {
@@ -1001,7 +1809,6 @@
                </div>
 
                <div className="bg-white p-6 rounded-t-[45px] shadow-[0_-10px_30px_rgba(0,0,0,0.04)] h-5/12 sm:h-1/2 flex flex-col flex-shrink-0">
-                  {/* Tabs */}
                   <div className="flex overflow-x-auto space-x-2 pb-4 mb-2 styled-scroll flex-shrink-0">
                      {tabs.map(t => (
                         <button key={t.id} onClick={()=>setAvatarTab(t.id)} className={`px-4 py-3 rounded-3xl font-bold flex flex-col items-center justify-center flex-shrink-0 transition-all ${avatarTab===t.id ? 'bg-indigo-500 text-white shadow-md' : 'bg-gray-50 text-gray-400 hover:bg-gray-100'}`}>
@@ -1011,7 +1818,6 @@
                      ))}
                   </div>
                   
-                  {/* Items Display */}
                   <div className="flex-1 overflow-y-auto pb-4 pt-1 px-1 styled-scroll content-start">
                      {['skin', 'clothesBase'].includes(avatarTab) && (
                         <div className="flex flex-wrap gap-4 justify-center">
